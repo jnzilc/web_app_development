@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}捐香油錢 — 線上算命系統{% endblock %}
+
+{% block content %}
+<section class="page-section">
+    <div class="section-header">
+        <h1>🏮 捐香油錢</h1>
+        <p>感恩還願，添一份誠心的香油錢，延續傳統美德。</p>
+    </div>
+
+    <div class="donation-container glass-card">
+        <div class="donation-total">
+            <span class="total-label">累計功德金額</span>
+            <span class="total-amount">NT$ {{ total }}</span>
+        </div>
+
+        <form method="POST" action="{{ url_for('donation.index') }}">
+            <div class="form-group">
+                <label class="form-label">選擇捐款金額：</label>
+                <div class="amount-grid">
+                    <label class="amount-option">
+                        <input type="radio" name="amount" value="10">
+                        <span class="amount-label">NT$ 10</span>
+                    </label>
+                    <label class="amount-option">
+                        <input type="radio" name="amount" value="50">
+                        <span class="amount-label">NT$ 50</span>
+                    </label>
+                    <label class="amount-option">
+                        <input type="radio" name="amount" value="100" checked>
+                        <span class="amount-label">NT$ 100</span>
+                    </label>
+                    <label class="amount-option">
+                        <input type="radio" name="amount" value="500">
+                        <span class="amount-label">NT$ 500</span>
+                    </label>
+                    <label class="amount-option custom-amount">
+                        <input type="radio" name="amount" value="custom" id="customRadio">
+                        <span class="amount-label">自訂金額</span>
+                    </label>
+                </div>
+                <input type="number" id="customAmount" class="form-input"
+                       placeholder="請輸入自訂金額" min="1" style="display:none;">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="message">祈願留言（選填）：</label>
+                <textarea name="message" id="message" class="form-input form-textarea"
+                          placeholder="寫下你的祈願..." maxlength="200"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg">
+                🙏 誠心捐款
+            </button>
+        </form>
+    </div>
+
+    <p class="donation-note">⚠️ 本系統為練習用途，捐款流程僅為模擬，不涉及真實金流。</p>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// 自訂金額邏輯
+const customRadio = document.getElementById('customRadio');
+const customAmount = document.getElementById('customAmount');
+const allRadios = document.querySelectorAll('input[name="amount"]');
+
+allRadios.forEach(radio => {
+    radio.addEventListener('change', function() {
+        if (this.value === 'custom') {
+            customAmount.style.display = 'block';
+            customAmount.required = true;
+            customAmount.focus();
+        } else {
+            customAmount.style.display = 'none';
+            customAmount.required = false;
+        }
+    });
+});
+
+// 提交時處理自訂金額
+document.querySelector('form').addEventListener('submit', function(e) {
+    if (customRadio.checked) {
+        const val = customAmount.value;
+        if (!val || parseInt(val) <= 0) {
+            e.preventDefault();
+            alert('請輸入有效的自訂金額');
+            return;
+        }
+        customRadio.value = val;
+    }
+});
+</script>
+{% endblock %}

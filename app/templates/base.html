@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="線上算命系統 — 隨時隨地，線上求籤問卜，獲取命理指引與心靈慰藉">
+    <title>{% block title %}線上算命系統{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- 導覽列 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('main.index') }}" class="nav-logo">🔮 線上算命</a>
+            <button class="nav-toggle" id="navToggle" aria-label="切換導覽列">☰</button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="{{ url_for('main.index') }}" class="nav-link">🏠 首頁</a></li>
+                <li><a href="{{ url_for('fortune.draw') }}" class="nav-link">🎋 抽籤</a></li>
+                <li><a href="{{ url_for('tarot.select') }}" class="nav-link">🃏 塔羅牌</a></li>
+                <li><a href="{{ url_for('bwa.throw') }}" class="nav-link">🙏 擲筊</a></li>
+                <li><a href="{{ url_for('history.index') }}" class="nav-link">📋 歷史紀錄</a></li>
+                <li><a href="{{ url_for('donation.index') }}" class="nav-link">🏮 香油錢</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Flash 訊息 -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="flash-container">
+        {% for category, message in messages %}
+        <div class="flash-message flash-{{ category }}">
+            {{ message }}
+            <button class="flash-close" onclick="this.parentElement.remove()">✕</button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <!-- 主要內容 -->
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- 頁尾 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>🔮 線上算命系統 &copy; 2026 — 僅供娛樂參考，不構成任何實質建議</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

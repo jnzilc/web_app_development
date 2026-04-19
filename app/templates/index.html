@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}首頁 — 線上算命系統{% endblock %}
+
+{% block content %}
+<!-- 每日運勢區塊 -->
+<section class="daily-fortune">
+    <div class="section-header">
+        <h1>🌙 今日運勢</h1>
+        <p class="date-display">{{ daily.date }}（星期{{ daily.weekday }}）</p>
+    </div>
+    <div class="fortune-card glass-card">
+        <div class="fortune-stars">
+            {% for i in range(5) %}
+                {% if i < daily.star_rating %}
+                    <span class="star filled">★</span>
+                {% else %}
+                    <span class="star">☆</span>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <p class="fortune-advice">「{{ daily.advice }}」</p>
+        <div class="fortune-details">
+            <div class="fortune-detail-item">
+                <span class="detail-label">🎨 幸運色</span>
+                <span class="detail-value">{{ daily.lucky_color }}</span>
+            </div>
+            <div class="fortune-detail-item">
+                <span class="detail-label">🔢 幸運數字</span>
+                <span class="detail-value">{{ daily.lucky_number }}</span>
+            </div>
+            <div class="fortune-detail-item">
+                <span class="detail-label">✨ 幸運物</span>
+                <span class="detail-value">{{ daily.lucky_item }}</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 功能導覽卡片 -->
+<section class="feature-nav">
+    <h2 class="section-title">🔮 選擇你的占卜方式</h2>
+    <div class="feature-grid">
+        <a href="{{ url_for('fortune.draw') }}" class="feature-card" id="card-fortune">
+            <div class="feature-icon">🎋</div>
+            <h3>抽籤求籤</h3>
+            <p>選擇類別，誠心搖動籤筒，隨機抽取一支籤詩，獲取運勢指引。</p>
+            <span class="feature-btn">開始抽籤 →</span>
+        </a>
+        <a href="{{ url_for('tarot.select') }}" class="feature-card" id="card-tarot">
+            <div class="feature-icon">🃏</div>
+            <h3>塔羅牌占卜</h3>
+            <p>選擇占卜主題與牌陣，翻開塔羅牌，從神秘符號中獲取啟示。</p>
+            <span class="feature-btn">開始占卜 →</span>
+        </a>
+        <a href="{{ url_for('bwa.throw') }}" class="feature-card" id="card-bwa">
+            <div class="feature-icon">🙏</div>
+            <h3>擲筊問事</h3>
+            <p>心中默念是非題，虔誠擲出筊杯，聆聽神明的回應。</p>
+            <span class="feature-btn">開始擲筊 →</span>
+        </a>
+        <a href="{{ url_for('history.index') }}" class="feature-card" id="card-history">
+            <div class="feature-icon">📋</div>
+            <h3>歷史紀錄</h3>
+            <p>回顧你過去的算命結果，追蹤運勢變化與神明指引。</p>
+            <span class="feature-btn">查看紀錄 →</span>
+        </a>
+        <a href="{{ url_for('donation.index') }}" class="feature-card" id="card-donation">
+            <div class="feature-icon">🏮</div>
+            <h3>捐香油錢</h3>
+            <p>感恩還願，以虔誠之心添一份香油，延續傳統美德。</p>
+            <span class="feature-btn">前往捐款 →</span>
+        </a>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}籤詩結果 — 線上算命系統{% endblock %}
+
+{% block content %}
+<section class="page-section">
+    <div class="section-header">
+        <h1>🎋 籤詩結果</h1>
+        <p>求問類別：{{ category }}</p>
+    </div>
+
+    <div class="result-card glass-card fade-in">
+        <div class="result-level level-{{ fortune.level }}">
+            <span class="level-text">{{ fortune.level }}</span>
+        </div>
+
+        <div class="result-poem">
+            <h3>📜 籤詩</h3>
+            <p class="poem-text">{{ fortune.poem }}</p>
+        </div>
+
+        <div class="result-interpretation">
+            <h3>📖 白話解釋</h3>
+            <p>{{ fortune.interpretation }}</p>
+        </div>
+
+        <div class="result-advice">
+            <h3>💡 建議</h3>
+            <p>{{ fortune.advice }}</p>
+        </div>
+    </div>
+
+    <div class="result-actions">
+        <a href="{{ url_for('fortune.draw') }}" class="btn btn-primary">🔄 再抽一次</a>
+        <a href="{{ url_for('history.index') }}" class="btn btn-secondary">📋 查看歷史</a>
+        <a href="{{ url_for('main.index') }}" class="btn btn-outline">🏠 回首頁</a>
+    </div>
+</section>
+{% endblock %}

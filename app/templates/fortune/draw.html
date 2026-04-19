@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}抽籤求籤 — 線上算命系統{% endblock %}
+
+{% block content %}
+<section class="page-section">
+    <div class="section-header">
+        <h1>🎋 抽籤求籤</h1>
+        <p>選擇你想求問的類別，誠心搖動籤筒，抽取一支籤詩。</p>
+    </div>
+
+    <div class="fortune-draw-container glass-card">
+        <form method="POST" action="{{ url_for('fortune.draw') }}" id="fortuneForm">
+            <div class="form-group">
+                <label class="form-label">選擇求籤類別：</label>
+                <div class="category-grid">
+                    {% for cat in categories %}
+                    <label class="category-option">
+                        <input type="radio" name="category" value="{{ cat }}" required>
+                        <span class="category-label">{{ cat }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- 籤筒動畫區 -->
+            <div class="fortune-cylinder" id="fortuneCylinder">
+                <div class="cylinder-icon">🎋</div>
+                <p class="cylinder-text">點擊下方按鈕搖動籤筒</p>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg" id="drawBtn">
+                🙏 誠心抽籤
+            </button>
+        </form>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('fortuneForm').addEventListener('submit', function(e) {
+    const cylinder = document.getElementById('fortuneCylinder');
+    const btn = document.getElementById('drawBtn');
+    cylinder.classList.add('shaking');
+    btn.textContent = '🎋 搖動籤筒中...';
+    btn.disabled = true;
+    // 延遲提交以顯示動畫
+    e.preventDefault();
+    setTimeout(() => { this.submit(); }, 1200);
+});
+</script>
+{% endblock %}
