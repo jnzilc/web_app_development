@@ -4,15 +4,14 @@ Flask 應用程式工廠 — 初始化 Flask app、資料庫、註冊 Blueprint
 
 import os
 import sqlite3
-from flask import Flask, g
+from flask import Flask, g, current_app
 from config import Config
-
 
 def get_db():
     """取得資料庫連線（每次請求共用同一個連線）"""
     if 'db' not in g:
         g.db = sqlite3.connect(
-            Flask.config if hasattr(g, '_app') else g._app_config['DATABASE']
+            current_app.config['DATABASE']
         )
         g.db.row_factory = sqlite3.Row
     return g.db
@@ -33,7 +32,9 @@ def init_db(app):
     os.makedirs(os.path.dirname(db_path), exist_ok=True)
 
     conn = sqlite3.connect(db_path)
-    schema_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'database', 'schema.sql')
+    # 取得專案根目錄 (app 資料夾的上一層)
+    project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    schema_path = os.path.join(project_root, 'database', 'schema.sql')
     with open(schema_path, 'r', encoding='utf-8') as f:
         conn.executescript(f.read())
     conn.commit()
@@ -48,9 +49,7 @@ def create_app():
         Flask: 配置完成的 Flask 應用程式實例
     """
     app = Flask(__name__,
-                instance_relative_config=False,
-                static_folder='app/static',
-                template_folder='app/templates')
+                instance_relative_config=False)
 
     app.config.from_object(Config)
 

@@ -27,7 +27,7 @@ def seed_fortunes(db):
             "INSERT INTO fortunes (category, level, poem, interpretation, advice) VALUES (?, ?, ?, ?, ?)",
             fortunes_data
         )
-        print("✅ 成功寫入籤詩種子資料")
+        print("Success: seed fortunes")
 
 def seed_tarots(db):
     """加入假塔羅牌資料"""
@@ -47,7 +47,7 @@ def seed_tarots(db):
             "INSERT INTO tarots (name, image_url, upright_meaning, reversed_meaning, description) VALUES (?, ?, ?, ?, ?)",
             tarots_data
         )
-        print("✅ 成功寫入塔羅牌種子資料")
+        print("Success: seed tarots")
 
 if __name__ == '__main__':
     app = create_app()
@@ -56,4 +56,4 @@ if __name__ == '__main__':
         seed_fortunes(db)
         seed_tarots(db)
         db.commit()
-        print("🎉 資料庫初始化與種子資料寫入完成！")
+        print("Success: finished database initialization!")

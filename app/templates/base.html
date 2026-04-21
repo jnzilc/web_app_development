@@ -8,7 +8,11 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="antigravity-theme">
+    <!-- 背景裝飾 -->
+    <div class="stars-container"></div>
+    <div class="nebula-gradient"></div>
+
     <!-- 導覽列 -->
     <nav class="navbar">
         <div class="nav-container">
@@ -52,6 +56,23 @@
     </footer>
 
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        // 加入動態星空背景
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.querySelector('.stars-container');
+            if (container) {
+                for (let i = 0; i < 50; i++) {
+                    const star = document.createElement('div');
+                    star.className = 'star-particle';
+                    star.style.left = Math.random() * 100 + '%';
+                    star.style.top = Math.random() * 100 + '%';
+                    star.style.animationDelay = Math.random() * 5 + 's';
+                    star.style.opacity = Math.random();
+                    container.appendChild(star);
+                }
+            }
+        });
+    </script>
     {% block scripts %}{% endblock %}
 </body>
 </html>
